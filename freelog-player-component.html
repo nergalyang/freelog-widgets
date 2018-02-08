@@ -1,0 +1,622 @@
+<template>
+    <style>
+    .playerBar {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border: 1px solid grey;
+    }
+    .playerOps {
+
+      position: absolute;
+      margin: auto;
+      top: 0; left: 20%;  right: 20%;
+    }
+    #playerList {
+      border: 1px solid grey;
+      position: absolute;
+      margin: auto;
+      height:200px;
+      left: 20%; bottom: 0%; right: 20%;
+      overflow: auto;
+    }
+    .progress-bar {
+      -webkit-appearance: none;
+      margin: 18px 0;
+      vertical-align: top
+    }
+    .progress-bar-duration {
+      position: absolute;
+      -webkit-appearance: none;
+      margin: -15px 0;
+      /* vertical-align: top */
+    }
+    .progress-bar-duration::-webkit-slider-runnable-track {
+      height: 7.3px;
+    }
+    .progress-bar-duration::-moz-range-track {
+      height: 7.3px;
+    }
+    .progress-bar-duration::-ms-track {
+      height: 7.3px;
+    }
+
+    .progress-bar:focus {
+      outline: none;
+    }
+    .progress-bar::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 4.3px;
+      cursor: pointer;
+      animate: 0.2s;
+      box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+      background: #3071a9;
+      border-radius: 1.3px;
+      border: 0.2px solid #010101;
+    }
+    .progress-bar::-webkit-slider-thumb {
+      box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+      border: 1px solid #000000;
+      height: 36px;
+      width: 16px;
+      border-radius: 3px;
+      background: #ffffff;
+      cursor: pointer;
+      -webkit-appearance: none;
+      margin-top: -14px;
+    }
+    .progress-bar:focus::-webkit-slider-runnable-track {
+      background: #367ebd;
+    }
+    .progress-bar::-moz-range-track {
+      width: 100%;
+      height: 4.3px;
+      cursor: pointer;
+      animate: 0.2s;
+      box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+      background: #3071a9;
+      border-radius: 1.3px;
+      border: 0.2px solid #010101;
+    }
+    .progress-bar::-moz-range-thumb {
+      box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+      border: 1px solid #000000;
+      height: 36px;
+      width: 16px;
+      border-radius: 3px;
+      background: #ffffff;
+      cursor: pointer;
+    }
+    .progress-bar::-ms-track {
+      width: 100%;
+      height: 4.3px;
+      cursor: pointer;
+      animate: 0.2s;
+      background: transparent;
+      border-color: transparent;
+      border-width: 16px 0;
+      color: transparent;
+    }
+    .progress-bar::-ms-fill-lower {
+      background: #2a6495;
+      border: 0.2px solid #010101;
+      border-radius: 2.6px;
+      box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    }
+    .progress-bar::-ms-fill-upper {
+      background: #3071a9;
+      border: 0.2px solid #010101;
+      border-radius: 2.6px;
+      box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    }
+    .progress-bar::-ms-thumb {
+      box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+      border: 1px solid #000000;
+      height: 36px;
+      width: 16px;
+      border-radius: 3px;
+      background: #ffffff;
+      cursor: pointer;
+    }
+    .progress-bar:focus::-ms-fill-lower {
+      background: #3071a9;
+    }
+    .progress-bar:focus::-ms-fill-upper {
+      background: #367ebd;
+    }
+    .player-svg {
+      display: inline-block;
+      padding-top: 10px
+    }
+    .playListIcon {
+      margin-left: 20px
+    }
+    .loopSwitch {
+      margin: 13px 0;
+      vertical-align: top;
+      display: inline-block;
+    }
+    .player-list-ul {
+      list-style-type:none;
+    }
+    .musicItem {
+      width: 100%
+    }
+    .song-name{
+      color: lightblue;
+      width:50%;
+      display: inline-block;
+    }
+    .song-singer {
+      color: lightblue;
+      width:30%;
+      display: inline-block;
+
+    }
+    .song-duration {
+      color: lightblue;
+      display: inline-block;
+
+    }
+    </style>
+    <div class="myPlayer">
+      <audio  id="myAudio"></audio>
+
+        <div class="playerBar">
+          <div id="playerList">
+          </div>
+          <div class="playerOps">
+
+
+          <div class="player-svg">
+            <svg id="playSong" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-play-circle"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+          </div>
+          <div class="player-svg" style="display:none">
+            <svg  id="pauseSong"  xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pause-circle"><circle cx="12" cy="12" r="10"></circle><line x1="10" y1="15" x2="10" y2="9"></line><line x1="14" y1="15" x2="14" y2="9"></line></svg>
+          </div>
+          <div class="player-svg">
+          <svg id="backwardSong" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rewind"><polygon points="11 19 2 12 11 5 11 19"></polygon><polygon points="22 19 13 12 22 5 22 19"></polygon></svg>
+          </div>
+          <div class="player-svg">
+          <svg id="forwardSong" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-fast-forward"><polygon points="13 19 22 12 13 5 13 19"></polygon><polygon points="2 19 11 12 2 5 2 19"></polygon></svg>
+          </div>
+          <div class="player-svg">
+          <svg id="previousSong" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-skip-back"><polygon points="19 20 9 12 19 4 19 20"></polygon><line x1="5" y1="19" x2="5" y2="5"></line></svg>
+          </div>
+          <div class="player-svg">
+          <svg id="nextSong" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-skip-forward"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19"></line></svg>
+          </div>
+
+          <div style="display:inline-block;width:400px;position:relative;" class="">
+                      <p id="currentPlaying" style="margin:0 0; position:absolute;left:25px;top:-36px;">wodege</p>
+                      <input type="range" id="progress-bar" class="progress-bar progress-bar-duration" style="width:400px" value="0">
+          </div>
+
+          <div class="loopSwitch">
+            <input id="loopSwitch" type="checkbox" >
+          </div>
+          <span class="player-svg">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-refresh-cw"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+          </span>
+
+          <div class="player-svg" style="display:none">
+          <svg id="volumeRecover" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-volume"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon></svg>
+          </div>
+
+          <div class="player-svg" >
+          <svg id="volumeNone" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-volume-x"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+          </div>
+          <input type="range"  id="volume" value="100"  class="progress-bar">
+
+
+          <div class="player-svg playListIcon" >
+            <svg id="playListIcon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-list"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3" y2="6"></line><line x1="3" y1="12" x2="3" y2="12"></line><line x1="3" y1="18" x2="3" y2="18"></line></svg>
+          </div>
+
+        </div>
+          </div>
+
+          <svg id="player-toggle"  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-power"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>
+    </div>
+</template>
+
+
+<script>
+
+
+  (function() {
+    var template = document.currentScript.parentNode.querySelector('template');
+
+    class PlayerComponent extends HTMLElement {
+      constructor() {
+        super()
+        let shadowRoot = this.attachShadow({
+          mode: 'closed'
+        });
+        const instance = template.content.cloneNode(true);
+
+        this.root = shadowRoot;
+        shadowRoot.appendChild(instance);
+        this.start.call(this);
+        this.init();
+
+      }
+      start() {
+        this.status = 'normal';
+        this.audio = this.root.getElementById('myAudio');
+        //更新进度条
+        this.audio.ontimeupdate = function() {
+          this.root.getElementById('progress-bar').value = this.audio.currentTime
+        }.bind(this)
+
+        this.audio.onended = function() {
+          //判断是否当前是否随机播放
+          if (this.status == 'random') {
+
+          } else if (this.status == 'loop') {
+            if (this.currentPlaying.musicIndex == (this.musicList.length - 1)) {
+              this.audio.setAttribute('src', this.musicList[0].src);
+            } else {
+              this.audio.setAttribute('src', this.musicList[this.musicList.length]);
+            }
+          } else {
+            if (this.currentPlaying.musicIndex == (this.musicList.length - 1)) {
+              console.log('up');
+              this.audio.setAttribute('src', this.musicList[this.musicList.length - 1].src);
+            } else {
+              this.next();
+            }
+          }
+        }.bind(this);
+        this.musicList = [];
+        this.init = function() {
+          this.musicList = [];
+          //下面应该是链式调用
+          this.fetchMusic().then(function() {
+            //加载第一首歌
+            var songSrc = this.musicList[0].src;
+            this.currentPlaying = this.musicList[0]
+            this.updateCurrentPlaying(this.currentPlaying);
+            this.audio.setAttribute('src', songSrc);
+
+            this.renderMusicList();
+            this.bindListener.call(this);
+          }.bind(this));
+
+
+
+
+        }
+        this.fetchMusic = function() {
+          var self = this;
+          var App = window.FreeLogApp
+          return window.QI.fetch(`/v1/presentables?nodeId=${window.__auth_info__.__auth_node_id__}&resourceType=audio`).then(function (res) {
+              return res.json()
+          }).then(function (data) {
+              self.presentableList = data.data || [];
+              var promises = self.presentableList.map(function (resource) {
+                return window.QI.fetchResource(resource.presentableId).then(function(res) {
+                  return res.json();
+                }).then(function(value) {
+                  debugger
+
+                  if (value.errcode != 0) {
+                      App.trigger(App.EventCode.invalidResponse, {
+                          data: value,
+                          callback: function () {
+                              console.log(arguments)
+                          }
+                      });
+                  } else {
+                    var meta = value.data.meta;
+                    var duration = meta.duration;
+                    var singer = meta.singer;
+                    var name = meta.name;
+                    self.musicList.push(new Music(name, singer, duration, 'http://api.freelog.com/v1/nodes/10013/presentables/5a43158b5094b9002f487529.data', 'id', self.musicList.length));
+                  }
+
+                })
+                console.log(self.musicList);
+                  // return window.QI.fetchResource(resource.presentableId + '.data').then(function(res) {
+                  //   return res.json()
+                  // }).then(function(data) {
+                  //   App.trigger(App.EventCode.invalidResponse, {
+                  //       data: data,
+                  //       callback: function () {
+                  //           console.log(arguments)
+                  //       }
+                  //   });
+                  // });
+              });
+
+              return Promise.all(promises)
+          })
+
+
+          function Music(name, singer, duration, src, presentableId, musicIndex) {
+            this.name = name || 'name',
+              this.singer = singer || 'unknown',
+              this.duration = duration || 'unknown',
+              this.src = src || 'src',
+              this.presentableId = presentableId || 'id',
+              this.musicIndex = musicIndex
+          }
+          // this.musicList.push(new Music('dead and gone', 'TI', '3:10', './deadandgone.mp3', 'id', this.musicList.length));
+          // this.musicList.push(new Music('love', '', '', './love.mp3', 'id', this.musicList.length))
+          // this.musicList.push(new Music('dead and gone', 'TI', '3:10', './deadandgone.mp3', 'id', this.musicList.length));
+          // this.musicList.push(new Music('love', '', '', './love.mp3', 'id', this.musicList.length))
+          // this.musicList.push(new Music('dead and gone', 'TI', '3:10', './deadandgone.mp3', 'id', this.musicList.length));
+          // this.musicList.push(new Music('love', '', '', './love.mp3', 'id', this.musicList.length))
+          // this.musicList.push(new Music('dead and gone', 'TI', '3:10', './deadandgone.mp3', 'id', this.musicList.length));
+          // this.musicList.push(new Music('love', '', '', './love.mp3', 'id', this.musicList.length))
+          // this.musicList.push(new Music('dead and gone', 'TI', '3:10', './deadandgone.mp3', 'id', this.musicList.length));
+          // this.musicList.push(new Music('love', '', '', './love.mp3', 'id', this.musicList.length))
+
+        }
+        this.renderMusicList = function() {
+          var list = this.root.getElementById('playerList');
+          var HTML = '<ul class="player-list-ul">';
+          this.musicList.forEach(function(el) {
+            HTML += `
+                                   <li>
+                                     <div class="musicItem" style="height:20px;" songSrc="` + el.src + `" musicIndex="` + el.musicIndex +
+              `">
+                                       <div class="song-name">
+                                         ` + el.name +
+              `
+                                       </div>
+                                       <div class="song-singer">
+                                          ` + el.singer +
+              `
+                                       </div>
+                                       <div class="song-duration">
+                                         ` + el.duration +
+              `
+                                       </div>
+                                     </div>
+                                   </li>`
+          })
+          HTML += '</ul>'
+          list.innerHTML = HTML
+        }
+        this.bindListener = function() {
+          var self = this;
+          var music = this.root.querySelectorAll('.musicItem');
+          self.currentElement = music[0];
+          self.currentElement.querySelectorAll('div').forEach(function(el) {
+            el.style.color = 'red'
+          });
+          Array.from(music).forEach(addEvent);
+
+          function addEvent(element) {
+            //双击播放当前歌曲
+            element.addEventListener('dblclick', function(e) {
+              //去除样式
+              self.currentElement.querySelectorAll('div').forEach(function(el) {
+                el.style.color = 'lightblue'
+              });
+              //添加样式
+              this.querySelectorAll('div').forEach(function(el) {
+                el.style.color = 'red'
+              });
+              //变更currentElement
+              self.currentElement = this;
+              var songSrc = this.getAttribute('songSrc');
+              var musicIndex = this.getAttribute('musicIndex');
+              self.audio.setAttribute('src', songSrc);
+              self.currentPlaying = self.musicList[musicIndex];
+              self.play();
+            })
+          }
+          this.audio.oncanplaythrough = function() {
+            self.currentPlaying.duration = self.audio.duration;
+            self.root.getElementById('progress-bar').setAttribute('max', self.audio.duration)
+          }
+
+          this.audio.addEventListener("error", function() {
+            // window.App.trigger()
+          });
+
+          this.root.getElementById('loopSwitch').addEventListener('click', function() {
+            if (this.checked) {
+              self.status = 'loop'
+            }
+          })
+
+          this.root.getElementById('playSong').addEventListener('click', function() {
+            self.play();
+          })
+          this.root.getElementById('pauseSong').addEventListener('click', function() {
+            self.pause();
+          })
+          this.root.getElementById('forwardSong').addEventListener('click', function() {
+            self.forward()
+          })
+          this.root.getElementById('backwardSong').addEventListener('click', function() {
+            self.backward()
+          })
+          this.root.getElementById('volume').addEventListener('change', function() {
+            self.volume(Number(this.value / 100))
+          })
+          this.root.getElementById('progress-bar').addEventListener('change', function() {
+            self.progress(this.value)
+            self.play();
+          })
+          this.root.getElementById('nextSong').addEventListener('click', function() {
+            self.next();
+          })
+          this.root.getElementById('previousSong').addEventListener('click', function() {
+            self.previous();
+          })
+          this.root.getElementById('volumeRecover').addEventListener('click', function() {
+            self.parentNode.style.display = 'none'
+            self.root.getElementById('volumeNone').parentNode.style.display = 'inline-block';
+
+            if (self.volumeStored) {
+              self.volume(self.volumeStored);
+              self.root.getElementById('volume').value = self.volumeStored * 100
+            }
+          })
+          this.root.getElementById('volumeNone').addEventListener('click', function() {
+            self.parentNode.style.display = 'none';
+            self.root.getElementById('volumeRecover').parentNode.style.display = 'inline-block'
+
+            self.volumeStored = self.audio.volume
+            self.volume(0);
+            self.root.getElementById('volume').value = 0
+          })
+          this.root.getElementById('playListIcon').addEventListener('click', function() {
+            if( self.root.getElementById('playerList').style.display == 'none' ) {
+              self.root.getElementById('playerList').style.display = 'inline-block'
+            }else {
+              self.root.getElementById('playerList').style.display = 'none'
+            }
+          })
+          this.root.getElementById('player-toggle').addEventListener('click', function() {
+            var obj = this.root.querySelectorAll('.playerBar')[0]
+            if(obj.style.display == 'none') {
+              obj.style.display = 'inline-block';
+            }else {
+              obj.style.display = 'none'
+            }
+          }.bind(this))
+        }
+      }
+      updateCurrentPlaying (obj) {
+        console.log(obj);
+        this.root.getElementById('currentPlaying').innerHTML  = obj.name
+      }
+      addMusic(music) {
+        this.musicList.push(music)
+      }
+      play() {
+        this.audio.play();
+        this.root.getElementById('pauseSong').parentNode.style.display = 'inline-block';
+        this.root.getElementById('playSong').parentNode.style.display = 'none';
+        //显示当前歌曲
+        this.updateCurrentPlaying(this.currentPlaying);
+      }
+      pause() {
+        this.audio.pause();
+        this.root.getElementById('pauseSong').parentNode.style.display = 'none';
+        this.root.getElementById('playSong').parentNode.style.display = 'inline-block';
+      }
+      forward() {
+        if ((this.audio.currentTime + this.currentPlaying.duration * 0.03) < this.currentPlaying.duration) {
+          this.audio.currentTime += this.currentPlaying.duration * 0.03
+          this.root.getElementById('progress-bar').value = this.audio.currentTime
+        }
+      }
+      backward() {
+        if ((this.audio.currentTime - this.currentPlaying.duration * 0.03) > 0) {
+          this.audio.currentTime -= this.currentPlaying.duration * 0.03
+          this.root.getElementById('progress-bar').value = this.audio.currentTime
+        }
+      }
+      volume(value) {
+        this.audio.volume = value
+      }
+      progress(value) {
+        this.audio.currentTime = value
+      }
+      next() {
+
+        if (this.status == 'random') {
+
+        } else if (this.status == 'loop') {
+
+
+
+          if (this.currentElement.parentNode.nextSibling) {
+
+            this.currentElement.querySelectorAll('div').forEach(function(el) {
+              el.style.color = 'lightblue'
+            });
+            this.currentElement = this.currentElement.parentNode.nextSibling.nextElementSibling.children[0];
+            this.currentElement.querySelectorAll('div').forEach(function(el) {
+              el.style.color = 'red'
+            });
+
+            var songSrc = this.currentElement.getAttribute('songSrc');
+            var musicIndex = this.currentElement.getAttribute('musicIndex');
+            this.audio.setAttribute('src', songSrc);
+            this.currentPlaying = this.musicList[musicIndex];
+            this.updateCurrentPlaying(this.currentPlaying);
+
+            this.play();
+          } else {
+
+
+            this.currentElement.querySelectorAll('div').forEach(function(el) {
+              el.style.color = 'lightblue'
+            });
+            this.currentElement = this.currentElement.parentNode.parentNode.children[0].children[0];
+            this.currentElement.querySelectorAll('div').forEach(function(el) {
+              el.style.color = 'red'
+            });
+
+
+            var songSrc = this.currentElement.getAttribute('songSrc');
+            var musicIndex = this.currentElement.getAttribute('musicIndex');
+            this.audio.setAttribute('src', songSrc);
+            this.currentPlaying = this.musicList[musicIndex];
+            this.play();
+          }
+        } else {
+          //普通模式
+          if (this.currentElement.parentNode.nextSibling) {
+
+            this.currentElement.querySelectorAll('div').forEach(function(el) {
+              el.style.color = 'lightblue'
+            });
+            this.currentElement = this.currentElement.parentNode.nextSibling.nextElementSibling.children[0];
+
+            this.currentElement.querySelectorAll('div').forEach(function(el) {
+              el.style.color = 'red'
+            });
+
+
+            var songSrc = this.currentElement.getAttribute('songSrc');
+            var musicIndex = this.currentElement.getAttribute('musicIndex');
+            this.audio.setAttribute('src', songSrc);
+            this.currentPlaying = this.musicList[musicIndex];
+            this.updateCurrentPlaying(this.currentPlaying);
+            this.play();
+          } else {
+            this.audio.pause();
+            this.audio.currentTime = 0;
+            this.root.getElementById('progress-bar').value = 0
+            this.play();
+          }
+        }
+      }
+      previous() {
+        if (this.status == 'random') {
+
+        } else {
+          if (this.currentElement.parentNode.previousSibling.previousSibling) {
+
+            this.currentElement.querySelectorAll('div').forEach(function(el) {
+              el.style.color = 'lightblue'
+            });
+            this.currentElement = this.currentElement.parentNode.previousSibling.previousSibling.children[0];
+            this.currentElement.querySelectorAll('div').forEach(function(el) {
+              el.style.color = 'red'
+            });
+
+            var songSrc = this.currentElement.getAttribute('songSrc');
+            var musicIndex = this.currentElement.getAttribute('musicIndex');
+            this.audio.setAttribute('src', songSrc);
+            this.currentPlaying = this.musicList[musicIndex];
+            this.play();
+          }
+        }
+      }
+      destroy() {
+
+      }
+    }
+
+    customElements.define('freelog-player-component', PlayerComponent);
+  })();
+</script>
